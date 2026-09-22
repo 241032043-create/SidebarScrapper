@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --ink: #18222c;
+  --muted: #66727c;
+  --line: #d9e0df;
+  --paper: #f7f8f4;
+  --white: #ffffff;
+  --teal: #0c7772;
+  --teal-light: #d9eeea;
+  --orange: #ed744c;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 280px; color: var(--ink); background: var(--paper); font-family: 'Space Grotesk', sans-serif; }
+.shell { padding: 22px 18px 18px; min-height: 100vh; display: flex; flex-direction: column; gap: 18px; }
+.masthead { display: flex; align-items: center; gap: 11px; }
+.brand-mark { width: 36px; height: 36px; display: grid; place-items: center; color: var(--white); background: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: .05em; border-radius: 9px 9px 9px 2px; }
+.eyebrow, h1, h2, p { margin: 0; }
+.eyebrow { color: var(--teal); font: 500 9px 'DM Mono', monospace; letter-spacing: .13em; }
+h1 { font-size: 19px; line-height: 1.1; letter-spacing: -.03em; }
+.status-dot { margin-left: auto; width: 8px; height: 8px; background: #67bd75; border-radius: 50%; box-shadow: 0 0 0 4px #e1f1df; }
+.intro { border-left: 2px solid var(--orange); padding: 1px 0 1px 12px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.control-panel, .results-section { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 16px; box-shadow: 0 3px 10px rgba(24,34,44,.035); }
+.results-section { flex: 1; display: flex; flex-direction: column; min-height: 280px; }
+.section-heading { display: flex; align-items: start; justify-content: space-between; margin-bottom: 14px; }
+.section-heading > div { display: flex; align-items: baseline; gap: 9px; }
+.step { color: var(--orange); font: 500 10px 'DM Mono', monospace; }
+h2 { font-size: 14px; letter-spacing: -.01em; }
+.state, .count { color: var(--teal); background: var(--teal-light); padding: 4px 7px; border-radius: 4px; font: 500 10px 'DM Mono', monospace; }
+.count { min-width: 26px; text-align: center; }
+.button { width: 100%; min-height: 40px; border: 0; border-radius: 5px; color: var(--white); cursor: pointer; font: 600 12px 'Space Grotesk', sans-serif; transition: transform .15s, opacity .15s; }
+.button:hover { transform: translateY(-1px); }
+.button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.button-primary { background: var(--teal); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.button-dark { margin-bottom: 12px; background: var(--ink); display: flex; justify-content: space-between; align-items: center; padding: 0 13px; }
+.button-icon { font-size: 19px; line-height: 10px; font-weight: 400; }
+.field-label { display: block; margin: 17px 0 7px; color: var(--muted); font: 500 10px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; }
+.selector-input { width: 100%; min-height: 42px; resize: vertical; padding: 10px; color: var(--ink); background: #fbfcfa; border: 1px solid var(--line); border-radius: 4px; outline: none; font: 11px/1.55 'DM Mono', monospace; }
+.selector-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-light); }
+.field-hint { margin-top: 7px; color: var(--muted); font-size: 10px; }
+.results { flex: 1; min-height: 145px; max-height: 340px; overflow: auto; border: 1px solid var(--line); border-radius: 4px; background: #fbfcfa; }
+.empty-state { min-height: 145px; display: grid; place-content: center; justify-items: center; gap: 8px; color: var(--muted); text-align: center; font-size: 11px; padding: 20px; }
+.empty-icon { color: var(--teal); font-size: 25px; }
+.result-item { display: flex; gap: 10px; padding: 11px 10px; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.45; }
+.result-item:last-child { border-bottom: 0; }
+.result-number { flex: 0 0 22px; color: var(--orange); font: 10px 'DM Mono', monospace; }
+.result-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.copy-button { margin-top: 10px; padding: 7px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer; font: 500 10px 'DM Mono', monospace; }
+.copy-button:disabled { opacity: .45; cursor: not-allowed; }
+.error { color: #a8432f; padding: 14px; font-size: 11px; line-height: 1.5; }
+footer { color: #8a9498; text-align: center; font: 10px 'DM Mono', monospace; }
+@media (max-width: 340px) { .shell { padding: 16px 12px; } }

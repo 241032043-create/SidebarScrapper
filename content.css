@@ -1,0 +1,10 @@
+.university-scraper-hover {
+  outline: 3px solid #0b74de !important;
+  outline-offset: 3px !important;
+  cursor: crosshair !important;
+}
+
+.university-scraper-selected {
+  outline: 3px solid #13a05f !important;
+  outline-offset: 3px !important;
+}

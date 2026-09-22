@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "University Course Scraper",
+  "version": "1.0.1",
+  "description": "Select one university course card and collect its course data.",
+  "permissions": ["sidePanel", "activeTab", "scripting", "storage", "tabs", "downloads"],
+  "host_permissions": ["https://collegedunia.com/*", "https://www.google.com/*", "https://suggestqueries.google.com/*", "https://gemini.google.com/*"],
+  "action": {
+    "default_title": "Open University Scraper"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://collegedunia.com/*"],
+      "js": ["content.js", "course-content.js", "stream-content.js", "ranking-content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

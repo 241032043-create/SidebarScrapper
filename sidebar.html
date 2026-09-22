@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar Scraper</title>
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true">SS</div>
+      <div>
+        <p class="eyebrow">VISUAL EXTRACTION</p>
+        <h1>Sidebar Scraper</h1>
+      </div>
+      <span class="status-dot" title="Ready"></span>
+    </header>
+
+    <section class="intro">
+      <p>Point at anything on the page. We will turn it into a reusable selector.</p>
+    </section>
+
+    <section class="control-panel" aria-labelledby="selector-heading">
+      <div class="section-heading">
+        <div>
+          <span class="step">01</span>
+          <h2 id="selector-heading">Choose a target</h2>
+        </div>
+        <span id="target-state" class="state">Ready</span>
+      </div>
+      <button id="pick-button" class="button button-primary" type="button">
+        <span class="button-icon" aria-hidden="true">+</span>
+        Select elements from page
+      </button>
+      <label class="field-label" for="selector-input">CSS selector</label>
+      <textarea id="selector-input" class="selector-input" rows="2" spellcheck="false" placeholder="e.g. article.product-card"></textarea>
+      <p id="selector-hint" class="field-hint">Pick multiple elements. Use one selector per line.</p>
+    </section>
+
+    <section class="results-section" aria-labelledby="results-heading">
+      <div class="section-heading">
+        <div>
+          <span class="step">02</span>
+          <h2 id="results-heading">Collected records</h2>
+        </div>
+        <span id="result-count" class="count">0</span>
+      </div>
+      <button id="scrape-button" class="button button-dark" type="button">Scrape data <span aria-hidden="true">→</span></button>
+      <div id="results" class="results" role="status" aria-live="polite">
+        <div class="empty-state">
+          <span class="empty-icon" aria-hidden="true">◌</span>
+          <p>Your extracted text will appear here.</p>
+        </div>
+      </div>
+      <button id="copy-button" class="copy-button" type="button" disabled>Copy results</button>
+    </section>
+
+    <footer>Runs locally in your current tab</footer>
+  </main>
+  <script src="sidebar.js"></script>
+</body>
+</html>

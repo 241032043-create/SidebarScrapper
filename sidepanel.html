@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Scraper</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div>
+        <p class="eyebrow">University marketplace</p>
+        <h1>Course scraper</h1>
+      </div>
+      <span id="statusDot" class="status-dot" title="Connection status"></span>
+    </header>
+
+    <section class="control-panel">
+      <div class="university-name-panel google-search-panel">
+        <label for="universityNameInput">University / campus name</label>
+        <div class="search-row">
+          <input id="universityNameInput" type="text" placeholder="e.g. Amity University Noida" autocomplete="off">
+        </div>
+        <div id="universitySuggestions" class="suggestions hidden" role="listbox" aria-label="University suggestions"></div>
+      </div>
+      <div class="button-group">
+        <button id="scrapeEverything" class="primary-button overview-button" type="button">Scrape everything &amp; download JSON</button>
+        <button id="openOverview" class="primary-button overview-button" type="button">University overview</button>
+        <button id="scrapeAllCourses" class="secondary-button alt-button" type="button">Scrape all courses on page</button>
+        <button id="selectCard" class="primary-button" type="button">Select a single card (with streams)</button>
+        <button id="scrapeRanking" class="secondary-button ranking-button" type="button">Scrape NIRF ranking</button>
+        <button id="scrapeGoogleImages" class="secondary-button images-button" type="button">Search university images</button>
+        <button id="scrapePlacement" class="secondary-button placement-button" type="button">Scrape placement data</button>
+        <button id="admissionNav" class="secondary-button admission-button" type="button">Admission</button>
+      </div>
+      <section id="workflowPipeline" class="workflow-pipeline hidden" aria-live="polite" aria-label="Scrape workflow">
+        <div class="workflow-step" data-workflow-step="overview">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>University overview</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+        <div class="workflow-step" data-workflow-step="courses">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>All courses</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+        <div class="workflow-step" data-workflow-step="streams">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>Course streams</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+        <div class="workflow-step" data-workflow-step="ranking">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>NIRF ranking</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+        <div class="workflow-step" data-workflow-step="images">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>University images</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+        <div class="workflow-step" data-workflow-step="placement">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>Placement data</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+        <div class="workflow-step" data-workflow-step="admission">
+          <span class="workflow-node"></span>
+          <div class="workflow-card"><strong>Admission</strong><span class="workflow-state">Waiting</span><small></small></div>
+        </div>
+      </section>
+      <p id="status" class="status">Enter a university name, then choose a course option above.</p>
+      <ol id="activityLog" class="activity-log" aria-live="polite"></ol>
+    </section>
+
+    <section id="overviewResult" class="result hidden">
+      <div class="section-heading">
+        <div><p class="eyebrow">University overview</p><h2>Verified profile JSON</h2></div>
+        <button id="copyOverviewJson" class="icon-button" title="Copy overview JSON">Copy JSON</button>
+      </div>
+      <pre id="overviewJson" class="ranking-json"></pre>
+    </section>
+
+    <section id="googleImagesResult" class="result hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Google Images</p>
+          <h2 id="googleImagesTitle">University facility images</h2>
+        </div>
+        <div class="header-actions">
+          <button id="downloadGoogleImages" class="icon-button" title="Download all images">Download all</button>
+          <button id="copyGoogleImagesJson" class="icon-button" title="Copy image JSON">Copy JSON</button>
+        </div>
+      </div>
+      <div id="googleImagesCards" class="google-images-cards"></div>
+      <pre id="googleImagesJson" class="ranking-json"></pre>
+    </section>
+
+    <section id="rankingResult" class="result hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">University ranking</p>
+          <h2>NIRF ranking</h2>
+        </div>
+        <button id="copyRankingJson" class="icon-button" title="Copy ranking JSON">Copy JSON</button>
+      </div>
+      <pre id="rankingJson" class="ranking-json"></pre>
+    </section>
+
+    <section id="placementResult" class="result hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">University placement</p>
+          <h2>Placement data</h2>
+        </div>
+        <button id="copyPlacementJson" class="icon-button" title="Copy placement JSON">Copy JSON</button>
+      </div>
+      <pre id="placementJson" class="ranking-json"></pre>
+    </section>
+
+    <section id="singleCardPicker" class="result hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Choose a course card</p>
+          <h2>Select the course to scrape</h2>
+        </div>
+      </div>
+      <div id="singleCardOptions" class="single-card-options"></div>
+    </section>
+
+    <!-- Single card results -->
+    <section id="result" class="result hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Selected card</p>
+          <h2 id="courseTitle">-</h2>
+        </div>
+        <button id="copyJson" class="icon-button" title="Copy JSON">Copy JSON</button>
+      </div>
+      <div id="summary" class="summary"></div>
+      <div class="section-heading courses-heading">
+        <h2>Streams / Sub-courses</h2>
+        <span id="courseCount" class="count">0</span>
+      </div>
+      <button id="scrapeDetails" class="secondary-button" disabled>Open stream links and scrape details</button>
+      <div id="courses" class="courses"></div>
+    </section>
+
+    <!-- All courses on page results -->
+    <section id="allCoursesResult" class="result hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">All courses on page</p>
+          <h2>Collected courses</h2>
+        </div>
+        <div class="header-actions">
+          <span id="allCoursesCount" class="count">0</span>
+          <button id="copyAllJson" class="icon-button" title="Copy JSON">Copy JSON</button>
+        </div>
+      </div>
+      <button id="fetchAllDescriptions" class="secondary-button" style="margin-top: 10px;">Fetch descriptions for all courses</button>
+      <div id="allCoursesList" class="courses" style="margin-top: 12px;"></div>
+    </section>
+  </main>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
