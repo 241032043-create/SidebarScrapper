@@ -149,7 +149,8 @@ async function runFullScrape() {
     if (!coursesMessage || !latestAllCourses.length) throw new Error('No parent courses were discovered.');
     const detailsMessage = await runWorkflowStage('streams', () => chrome.runtime.sendMessage({ type: 'SCRAPE_ALL_COURSE_DETAILS', courses: latestAllCourses }), 'ALL_COURSE_DETAILS_RESULT', 'ALL_COURSE_DETAILS_ERROR', (result) => {
       const summary = result.completeness;
-      return summary?.complete ? `${summary.streamPagesSucceeded} stream pages ready.` : `Incomplete: ${summary?.streamPagesFailed || 0} stream pages failed.`;
+      if (summary?.complete) return `${summary.streamPagesSucceeded} stream pages ready.`;
+      return `Parent descriptions ready; ${summary?.streamPagesFailed || 0} stream pages failed, ${summary?.streamExtractionFailures || 0} stream groups missing, ${summary?.streamDescriptionBatchesFailed || 0} stream-description batches failed.`;
     }, 600000);
     if (!detailsMessage) throw new Error('Courses and streams processing did not complete.');
     latestAllCourses = detailsMessage.courses || latestAllCourses;
@@ -157,8 +158,10 @@ async function runFullScrape() {
     files['all-streams.json'] = latestAllCourses.flatMap((course) => (course.courses || []).map(toStreamExport));
     coursesStreamsComplete = detailsMessage.completeness?.complete === true;
     if (!coursesStreamsComplete) {
-      setWorkflowStep('streams', 'error', 'Incomplete; failed records were retained in the export.');
-      setStatus('Courses + Streams export is incomplete; failed records were retained.', 'error');
+      const summary = detailsMessage.completeness || {};
+      const reason = `${summary.streamPagesFailed || 0} stream pages failed; ${summary.streamExtractionFailures || 0} stream groups missing; ${summary.streamDescriptionBatchesFailed || 0} stream-description batches failed.`;
+      setWorkflowStep('streams', 'error', `Parent descriptions ready. ${reason}`);
+      setStatus(`Courses + Streams export is incomplete; parent descriptions were retained. ${reason}`, 'error');
     }
 
     setStatus('3-5/7 Scraping ranking, images, and placement in parallel...');
